@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.body {
+    font-family: "Roboto Condensed", sans-serif;
+    background-color: black;
+}
+
+.container {
+    @apply w-[800px] my-0 mx-auto;
+}
+
+.btns {
+    @apply mr-8 cursor-pointer w-[100px] h-[40px] flex justify-center items-center rounded-lg bg-red-600;
+}
