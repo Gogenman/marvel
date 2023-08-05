@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './vars/vars.scss';
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.btn {
+    padding: 5px 15px;
+    background-color: var(--second-text-color);
+    color: var(--main-text-color);
+    border-radius: 10px;
+}
