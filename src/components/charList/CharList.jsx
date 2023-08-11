@@ -18,6 +18,8 @@ class CharList extends Component {
             .getAllCharacters()
             .then(this.onCharListLoaded)
             .catch(this.onError)
+
+        // this.foo.bar = ''
     }
 
     onCharListLoaded = (charList) => {

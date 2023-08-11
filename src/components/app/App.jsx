@@ -4,9 +4,8 @@ import CharList from "../charList/CharList";
 import CharInfo from "../charInfo/CharInfo";
 import '../../style/style.scss'
 import decoration from '../../resources/img/vision.png';
-import Spinner from "../spinner/Spinner";
 import { Component } from "react";
-import MarvelServise from "../../services/MarvelService";
+import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
 class App extends Component {
     state = {
@@ -26,10 +25,18 @@ class App extends Component {
                 <AppHeader/>
                 
                 <main>
-                    <RandomChar/>
+                    <ErrorBoundary>
+                        <RandomChar/>
+                    </ErrorBoundary>
+
                     <div className="char__content">
-                        <CharList onCharSelected={this.onCharSelected}/>
-                        <CharInfo selectedChar={this.state.selectedChar}/>
+                        <ErrorBoundary>
+                            <CharList onCharSelected={this.onCharSelected}/>
+                        </ErrorBoundary>
+
+                        <ErrorBoundary>
+                            <CharInfo selectedChar={this.state.selectedChar}/>
+                        </ErrorBoundary>
                     </div>
                     <img className="bg-decoration" src={decoration} alt="vision"/>
                 </main>
