@@ -1,0 +1,21 @@
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    &__message {
+        font-size: 30px;
+        color: var(--main-color);
+        animation: ping 2s linear infinite;
+    }
+}
+
+@keyframes ping {
+    from {
+        transform: translateY(-10px);
+    }
+    to {
+        transform: translateY(0px);
+    }
+}

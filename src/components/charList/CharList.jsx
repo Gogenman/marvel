@@ -1,83 +1,86 @@
 import { Component } from "react";
+import "./charList.scss";
+import MarvelServise from "../../services/MarvelService";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
-import MarvelServise from "../../services/MarvelService";
 
 class CharList extends Component {
     state = {
         charList: [],
-        loading: true,
-        error: false,
-    };
+        isLoading: true,
+        error: false
+    }
 
-    marvelService = new MarvelServise();
+    marvelServ = new MarvelServise()
 
-    componentDidMount() {
-        this.marvelService
+    componentDidMount = () => {
+        this.marvelServ
             .getAllCharacters()
             .then(this.onCharListLoaded)
-            .catch(this.onError);
+            .catch(this.onError)
     }
 
     onCharListLoaded = (charList) => {
         this.setState({
             charList,
-            loading: false,
-        });
-    };
+            isLoading: false
+        })
+    }
 
     onError = () => {
         this.setState({
             error: true,
-            loading: false,
-        });
-    };
+            isLoading: false
+        })
+    }
 
-    // Этот метод создан для оптимизации,
-    // чтобы не помещать такую конструкцию в метод render
-    renderItems(arr) {
-        //useful:  'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
-        const items = arr.map((item) => (
-            <li
-                className="rounded-xl overflow-hidden shadow-xl w-[200px] m-2 bg-[--main-bg-color] text-[--main-text-color] cursor-pointer"
-                key={item.id}
-            >
-                <div className="overflow-hidden w-full h-[200px] object-contain">
-                    <img
-                        className="h-full object-cover"
-                        src={item.thumbnail}
-                        alt={item.name}
-                    />
-                </div>
+    renderItems = (arr) => {
+        const items = arr.map(item => {
+            let imgStyle = {'objectFit' : 'cover'}
 
-                <div className="p-2">{item.name}</div>
-            </li>
-        ));
-        // А эта конструкция вынесена для центровки спиннера/ошибки
-        return <ul className="flex flex-wrap w-4/5">{items}</ul>;
+            if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+                imgStyle = {'objectFit' : 'unset'}
+            }
+
+            return (
+                <li 
+                    key={item.id} 
+                    className="char__item"
+                    onClick={() => this.props.onCharSelected(item.id)}
+                >
+                    <img src={item.thumbnail} alt="abyss" style={imgStyle} />
+                    <div className="char__name">{item.name}</div>
+                </li>
+            )
+        })
+
+        return (
+            <ul className="char__grid">
+                {items}
+            </ul>
+        )
     }
 
     render() {
-        const { charList, loading, error } = this.state;
 
-        const items = this.renderItems(charList);
+        const {error, isLoading} = this.state
 
-        const errorMessage = error ? <ErrorMessage /> : null;
-        const spinner = loading ? <Spinner /> : null;
-        const content = !(loading || error) ? items : null;
-
+        const loading = isLoading ? <Spinner /> : null
+        const errorMessage = error ? <ErrorMessage /> : null
+        const content = !(isLoading || error) ? this.renderItems(this.state.charList) : null
         return (
-            <div className="mt-10">
+            <div className="char__list">
+                {/* {this.renderItems(this.state.charList)} */}
+                {loading}
                 {errorMessage}
-                {spinner}
-                <div className="container">
-                    {content}
-
-                    <button className="btn self-center mt-10">load more</button>
-                </div>
+                {content}
+                <button className="button button__main button__long">
+                    <div className="inner">load more</div>
+                </button>
             </div>
         );
     }
-}
+
+};
 
 export default CharList;
