@@ -1,10 +1,10 @@
 import "./charInfo.scss";
-import thor from "../../resources/img/thor.jpeg";
 import MarvelServise from "../../services/MarvelService";
 import { Component } from "react";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
-import Skeleton from '../skeleton/Skeleton'
+import Skeleton from '../skeleton/Skeleton';
+import PropTypes from 'prop-types';
 
 class CharInfo extends Component {
     state = {
@@ -101,12 +101,18 @@ const View = ({char}) => {
                     // eslint-disable-next-line
                     if (i > 9) return;
                     return (
-                        <li key={i} className="char__comics-item">{item.name}</li>
+                        <li key={i} className="char__comics-item">
+                            {item.name}
+                        </li>
                     )
                 })}
             </ul>
         </>
     );
 };
+
+CharInfo.propTypes = {
+    selectedChar: PropTypes.number
+}
 
 export default CharInfo;
